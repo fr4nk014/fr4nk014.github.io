@@ -74,9 +74,8 @@
             position: absolute;
             display: flex;
             width: max-content;
-            animation: scroll-screenshots 100s linear infinite;
+            animation: scroll-screenshots 48s linear infinite;
             animation-play-state: paused;
-            transform: translateX(var(--track-start, 0));
         }
 
         body.is-ready .screenshot-track {
@@ -92,8 +91,7 @@
         .screenshot-track--bottom {
             bottom: 2%;
             animation-name: scroll-screenshots-reverse;
-            animation-duration: 120s;
-            --track-start: -50%;
+            animation-duration: 56s;
             --entry-x: 110vw;
             --entry-rotation: 9deg;
         }
@@ -142,14 +140,22 @@
         }
 
         @keyframes scroll-screenshots {
+            from {
+                transform: translate3d(0, 0, 0);
+            }
+
             to {
-                transform: translateX(-50%);
+                transform: translate3d(-50%, 0, 0);
             }
         }
 
         @keyframes scroll-screenshots-reverse {
+            from {
+                transform: translate3d(-50%, 0, 0);
+            }
+
             to {
-                transform: translateX(0);
+                transform: translate3d(0, 0, 0);
             }
         }
 
@@ -188,6 +194,7 @@
             display: inline-block;
             animation: title-wave 2.4s ease-in-out infinite;
             animation-delay: var(--letter-delay, 0s);
+            will-change: transform;
         }
 
         .title-arrival {
@@ -289,11 +296,11 @@
 
             0%,
             100% {
-                transform: translateY(0);
+                transform: translate3d(0, 0, 0);
             }
 
             50% {
-                transform: translateY(-6px);
+                transform: translate3d(0, -6px, 0);
             }
         }
 
@@ -303,11 +310,11 @@
             4%,
             10%,
             100% {
-                transform: scale(1);
+                transform: scale3d(1, 1, 1);
             }
 
             7% {
-                transform: scale(1.2);
+                transform: scale3d(1.2, 1.2, 1);
             }
         }
 
