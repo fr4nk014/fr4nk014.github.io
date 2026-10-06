@@ -3,44 +3,104 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="google-site-verification"
         content="epV0pDgQTz8TOZvZEdTZ5ht3b9MqIsFBmiNYhWLpEHo" />
 
-    <title>Website Under Construction</title>
+    <title>PearlByte</title>
 
-    <link rel="stylesheet" href="assets/css/main.css" />
-    <noscript>
-        <link rel="stylesheet" href="assets/css/noscript.css" />
-    </noscript>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #ffd447 0%, #ff9f1c 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .container {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            margin: 0 0 12px;
+            font-size: clamp(2.5rem, 7vw, 5rem);
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        p {
+            margin: 0 0 35px;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .games {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .game-link {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.2s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .game-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 
-<body class="is-preload">
+<body>
 
-    <div id="page-wrapper">
+    <main class="container">
+        <h1>PearlByte</h1>
 
-        <!-- Main -->
-        <section id="banner">
-            <div class="inner">
-                <div class="logo">
-                    <span class="icon fa-gem"></span>
-                </div>
+        <p>Website Under Construction.</p>
 
-                <h2>PearlByte</h2>
-                <p>Website Under Construction.</p>
-            </div>
-        </section>
+        <div class="games">
+            <a
+                class="game-link"
+                href="https://store.steampowered.com/app/2536120/Mousey/"
+                target="_blank"
+                rel="noopener noreferrer">
+                Mousey
+            </a>
 
-    </div>
-
-    <!-- Scripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/jquery.scrollex.min.js"></script>
-    <script src="assets/js/browser.min.js"></script>
-    <script src="assets/js/breakpoints.min.js"></script>
-    <script src="assets/js/util.js"></script>
-    <script src="assets/js/main.js"></script>
+            <a
+                class="game-link"
+                href="https://store.steampowered.com/app/4025210/Nest_of_Dust/"
+                target="_blank"
+                rel="noopener noreferrer">
+                Nest of Dust
+            </a>
+        </div>
+    </main>
 
 </body>
 
