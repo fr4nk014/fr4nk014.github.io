@@ -10,6 +10,10 @@
     <title>PearlByte</title>
 
     <style>
+        :root {
+            --ease-out-back: cubic-bezier(0.34, 1.35, 0.64, 1);
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -29,6 +33,26 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 2;
+            background: #000;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        body.is-ready::before {
+            animation: fade-from-black 1.2s ease-out forwards;
+        }
+
+        @keyframes fade-from-black {
+            to {
+                opacity: 0;
+            }
         }
 
         .screenshot-backdrop {
@@ -51,36 +75,81 @@
             display: flex;
             width: max-content;
             animation: scroll-screenshots 100s linear infinite;
+            animation-play-state: paused;
+            transform: translateX(var(--track-start, 0));
+        }
+
+        body.is-ready .screenshot-track {
+            animation-play-state: running;
         }
 
         .screenshot-track--top {
             top: 2%;
+            --entry-x: -110vw;
+            --entry-rotation: -9deg;
         }
 
         .screenshot-track--bottom {
             bottom: 2%;
-            animation-direction: reverse;
+            animation-name: scroll-screenshots-reverse;
             animation-duration: 120s;
+            --track-start: -50%;
+            --entry-x: 110vw;
+            --entry-rotation: 9deg;
         }
 
         .screenshot-group {
             display: flex;
+            flex: 0 0 100vw;
             gap: 16px;
             padding-right: 16px;
         }
 
         .screenshot-group img {
             display: block;
-            width: clamp(200px, 26vw, 400px);
+            flex: 1 1 0;
+            width: 0;
+            min-width: 0;
             height: clamp(90px, 16vh, 190px);
             border-radius: 12px;
             object-fit: cover;
             opacity: 0.55;
         }
 
+        body.is-ready .screenshot-group img {
+            animation: screenshot-arrive 1.15s var(--ease-out-back) both;
+            animation-delay: var(--image-delay, 0s);
+        }
+
+        .screenshot-group img:nth-child(2) {
+            --image-delay: 0.12s;
+        }
+
+        .screenshot-group img:nth-child(3) {
+            --image-delay: 0.24s;
+        }
+
+        @keyframes screenshot-arrive {
+            0% {
+                transform: translateX(var(--entry-x)) scale(0.7) rotate(var(--entry-rotation));
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0) scale(1) rotate(0);
+                opacity: 0.55;
+            }
+        }
+
         @keyframes scroll-screenshots {
             to {
                 transform: translateX(-50%);
+            }
+        }
+
+        @keyframes scroll-screenshots-reverse {
+            to {
+                transform: translateX(0);
             }
         }
 
@@ -92,49 +161,128 @@
         }
 
         h1 {
-            margin: 0 0 8px;
-            font-size: clamp(2.8rem, 8vw, 5rem);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 0 0 2px;
+            font-size: clamp(2rem, 9vw, 5rem);
             font-weight: 800;
-            letter-spacing: -2px;
+            letter-spacing: -0.07em;
             color: #9a642f;
+            white-space: nowrap;
+        }
+
+        .title-prefix {
+            display: block;
+        }
+
+        .title-letters {
+            display: flex;
+        }
+
+        .title-ending {
+            display: flex;
         }
 
         .title-letter {
             display: inline-block;
-            text-shadow: 2px 2px 0 rgba(255, 221, 145, 0.7), -2px -2px 3px rgba(111, 66, 25, 0.28);
             animation: title-wave 2.4s ease-in-out infinite;
+            animation-delay: var(--letter-delay, 0s);
         }
 
-        .title-letter:nth-child(2) {
-            animation-delay: 0.12s;
+        .title-arrival {
+            display: inline-block;
         }
 
-        .title-letter:nth-child(3) {
-            animation-delay: 0.24s;
+        body.is-ready .title-arrival {
+            animation: title-arrive 1s var(--ease-out-back) both;
+            animation-delay: var(--arrival-delay, 0s);
         }
 
-        .title-letter:nth-child(4) {
-            animation-delay: 0.36s;
+        .title-arrival:nth-child(2) {
+            --arrival-delay: 0.06s;
+            --arrival-x: -85vw;
+            --arrival-y: -35vh;
+            --arrival-rotation: -16deg;
         }
 
-        .title-letter:nth-child(5) {
-            animation-delay: 0.48s;
+        .title-arrival:nth-child(3) {
+            --arrival-delay: 0.12s;
+            --arrival-x: 0;
+            --arrival-y: 90vh;
+            --arrival-rotation: 13deg;
         }
 
-        .title-letter:nth-child(6) {
-            animation-delay: 0.6s;
+        .title-arrival:nth-child(4) {
+            --arrival-delay: 0.18s;
+            --arrival-x: 90vw;
+            --arrival-y: -20vh;
+            --arrival-rotation: 18deg;
         }
 
-        .title-letter:nth-child(7) {
-            animation-delay: 0.72s;
+        .title-arrival:nth-child(5) {
+            --arrival-delay: 0.24s;
+            --arrival-x: -70vw;
+            --arrival-y: 55vh;
+            --arrival-rotation: -12deg;
         }
 
-        .title-letter:nth-child(8) {
-            animation-delay: 0.84s;
+        .title-arrival:nth-child(6) {
+            --arrival-delay: 0.3s;
+            --arrival-x: 75vw;
+            --arrival-y: 45vh;
+            --arrival-rotation: 14deg;
         }
 
-        .title-letter:nth-child(9) {
-            animation-delay: 0.96s;
+        @keyframes title-arrive {
+            0% {
+                opacity: 0;
+                transform: translate(var(--arrival-x, 0), var(--arrival-y, -80vh)) scale(0.3) rotate(var(--arrival-rotation, 12deg));
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1) rotate(0);
+            }
+        }
+
+        .title-letters .title-arrival:nth-child(2) {
+            --letter-delay: 0.12s;
+        }
+
+        .title-letters .title-arrival:nth-child(3) {
+            --letter-delay: 0.24s;
+        }
+
+        .title-letters .title-arrival:nth-child(4) {
+            --letter-delay: 0.36s;
+        }
+
+        .title-letters .title-arrival:nth-child(5) {
+            --letter-delay: 0.48s;
+        }
+
+        .title-letters .title-arrival:nth-child(6) {
+            --letter-delay: 0.6s;
+        }
+
+        .title-ending .title-arrival:nth-child(1) {
+            --letter-delay: 0.72s;
+        }
+
+        .title-ending .title-arrival:nth-child(2) {
+            --letter-delay: 0.84s;
+        }
+
+        .title-ending .title-arrival:nth-child(3) {
+            --letter-delay: 0.96s;
+        }
+
+        .title-character {
+            display: inline-block;
+            text-shadow: 2px 2px 0 rgba(255, 221, 145, 0.7), -2px -2px 3px rgba(111, 66, 25, 0.28);
+            animation: title-pulse 5s ease-in-out infinite;
+            animation-delay: var(--letter-delay, 0s);
         }
 
         @keyframes title-wave {
@@ -149,10 +297,54 @@
             }
         }
 
+        @keyframes title-pulse {
+
+            0%,
+            4%,
+            10%,
+            100% {
+                transform: scale(1);
+            }
+
+            7% {
+                transform: scale(1.2);
+            }
+        }
+
+        .tagline {
+            margin: 0 0 8px;
+            color: #9a642f;
+            font-size: clamp(0.8rem, 3vw, 1.1rem);
+            font-weight: 700;
+            text-shadow: 2px 2px 0 rgba(255, 221, 145, 0.7), -2px -2px 3px rgba(111, 66, 25, 0.28);
+        }
+
+        body.is-ready .tagline {
+            animation: pop-in 0.9s var(--ease-out-back) 0.42s both;
+        }
+
+        body.is-ready .construction-note {
+            animation: pop-in 0.9s var(--ease-out-back) 0.52s both;
+        }
+
+        @keyframes pop-in {
+            0% {
+                opacity: 0;
+                transform: translateY(80vh) scale(0.55) rotate(-5deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0);
+            }
+        }
+
         p {
             margin: 0 0 14px;
             font-size: 1.2rem;
             opacity: 0.9;
+            text-decoration: underline;
+            text-underline-offset: 0.2em;
         }
 
         .games {
@@ -171,6 +363,34 @@
             background: rgba(112, 73, 42, 0.88);
             box-shadow: inset 3px 3px 8px rgba(57, 36, 21, 0.46), inset -3px -3px 7px rgba(255, 220, 163, 0.2);
             backdrop-filter: blur(8px);
+        }
+
+        .link-panel:first-of-type {
+            --panel-entry-x: -110vw;
+            --panel-entry-rotation: -8deg;
+            --panel-delay: 0.62s;
+        }
+
+        .link-panel:last-of-type {
+            --panel-entry-x: 110vw;
+            --panel-entry-rotation: 8deg;
+            --panel-delay: 0.74s;
+        }
+
+        body.is-ready .link-panel {
+            animation: panel-arrive 1s var(--ease-out-back) var(--panel-delay) both;
+        }
+
+        @keyframes panel-arrive {
+            0% {
+                opacity: 0;
+                transform: translateX(var(--panel-entry-x)) scale(0.7) rotate(var(--panel-entry-rotation));
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1) rotate(0);
+            }
         }
 
         .link-panel h2 {
@@ -275,11 +495,25 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
+            body::before {
+                display: none;
+            }
+
             .screenshot-track {
+                animation: none;
+                transform: none;
+            }
+
+            .title-letter,
+            .title-character {
                 animation: none;
             }
 
-            .title-letter {
+            body.is-ready .screenshot-group img,
+            body.is-ready .title-arrival,
+            body.is-ready .tagline,
+            body.is-ready .construction-note,
+            body.is-ready .link-panel {
                 animation: none;
             }
         }
@@ -329,18 +563,35 @@
 
     <main class="container">
         <h1 aria-label="PearlByte">
-            <span class="title-letter" aria-hidden="true">P</span>
-            <span class="title-letter" aria-hidden="true">e</span>
-            <span class="title-letter" aria-hidden="true">a</span>
-            <span class="title-letter" aria-hidden="true">r</span>
-            <span class="title-letter" aria-hidden="true">l</span>
-            <span class="title-letter" aria-hidden="true">B</span>
-            <span class="title-letter" aria-hidden="true">y</span>
-            <span class="title-letter" aria-hidden="true">t</span>
-            <span class="title-letter" aria-hidden="true">e</span>
+            <span class="title-prefix">
+                <span class="title-letters">
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">P</span></span></span>
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">e</span></span></span>
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">a</span></span></span>
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">r</span></span></span>
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">l</span></span></span>
+                    <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                                class="title-character">B</span></span></span>
+                </span>
+            </span>
+            <span class="title-ending">
+                <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                            class="title-character">y</span></span></span>
+                <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                            class="title-character">t</span></span></span>
+                <span class="title-arrival" aria-hidden="true"><span class="title-letter"><span
+                            class="title-character">e</span></span></span>
+            </span>
         </h1>
 
-        <p>Website Under Construction.</p>
+        <div class="tagline">Making Goofy Games</div>
+
+        <p class="construction-note">Website Under Construction.</p>
 
         <section class="link-panel" aria-labelledby="steam-heading">
             <h2 id="steam-heading">Steam Pages</h2>
@@ -378,6 +629,15 @@
     </main>
 
     <script>
+        Promise.race([
+            Promise.allSettled(
+                Array.from(document.querySelectorAll(".screenshot-backdrop img"), (image) => image.decode())
+            ),
+            new Promise((resolve) => setTimeout(resolve, 2500))
+        ]).then(() => {
+            document.body.classList.add("is-ready");
+        });
+
         fetch("https://discord.com/api/v10/invites/7R7YTwwKHz?with_counts=true")
             .then((response) => {
                 if (!response.ok) {
